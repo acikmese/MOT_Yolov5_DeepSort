@@ -32,15 +32,15 @@ class LoadStreams:
                 import pafy
                 s = pafy.new(s).getbest(preftype="mp4").url  # YouTube URL
             s = eval(s) if s.isnumeric() else s  # i.e. s = '0' local webcam
-            cap = cv2.VideoCapture(s)  # For general PC
+            # cap = cv2.VideoCapture(s)  # For general PC
             # For Jetson Device!
-            # cap = cv2.VideoCapture(gstreamer_pipeline(
-            #     sensor_id=s,
-            #     sensor_mode=4,
-            #     flip_method=2,
-            #     display_height=480,
-            #     display_width=640,
-            # ), cv2.CAP_GSTREAMER)
+            cap = cv2.VideoCapture(gstreamer_pipeline(
+                sensor_id=s,
+                sensor_mode=4,
+                flip_method=2,
+                display_height=480,
+                display_width=640,
+            ), cv2.CAP_GSTREAMER)
             if isinstance(s, int):
                 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
                 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
@@ -114,15 +114,15 @@ class LoadWebcam:  # for inference
         self.stride = stride
         self.pipe = eval(pipe) if pipe.isnumeric() else pipe
         # For general PC.
-        self.cap = cv2.VideoCapture(self.pipe)  # video capture object
+        # self.cap = cv2.VideoCapture(self.pipe)  # video capture object
         # For Jetson!
-        # self.cap = cv2.VideoCapture(gstreamer_pipeline(
-        #     sensor_id=self.pipe,
-        #     sensor_mode=4,
-        #     flip_method=2,
-        #     display_height=480,
-        #     display_width=640,
-        # ), cv2.CAP_GSTREAMER)
+        self.cap = cv2.VideoCapture(gstreamer_pipeline(
+            sensor_id=self.pipe,
+            sensor_mode=4,
+            flip_method=2,
+            display_height=480,
+            display_width=640,
+        ), cv2.CAP_GSTREAMER)
         if self.pipe == 0:
             self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
             self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
@@ -170,12 +170,12 @@ class LoadWebcam:  # for inference
 # Here we directly select sensor_mode 3 (1280x720, 59.9999 fps)
 def gstreamer_pipeline(
     sensor_id=0,
-    sensor_mode=3,
-    capture_width=720,
-    capture_height=720,
-    display_width=1280,
-    display_height=720,
-    framerate=30,
+    sensor_mode=4,
+    capture_width=640,
+    capture_height=480,
+    display_width=640,
+    display_height=480,
+    framerate=24,
     flip_method=0,
 ):
     return (
