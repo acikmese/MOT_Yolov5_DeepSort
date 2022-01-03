@@ -38,12 +38,12 @@ class LoadStreams:
                 sensor_id=s,
                 sensor_mode=4,
                 flip_method=2,
-                display_height=480,
-                display_width=640,
+                display_height=720,
+                display_width=1280,
             ), cv2.CAP_GSTREAMER)
             if isinstance(s, int):
-                cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-                cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+                cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+                cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
                 cap.set(cv2.CAP_PROP_FPS, 24)
             assert cap.isOpened(), f'{st}Failed to open {s}'
             w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
